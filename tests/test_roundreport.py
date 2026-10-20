@@ -28,7 +28,7 @@ local function char(name, teamid, human)
 end
 alice = char("AliceChar", "Team1"); bob = char("BobChar", "Team1"); botty = char("Botty", "Team1")
 crawler = char("Crawler", "None", false)
-Client = { ClientList = { { Name = "Alice", Character = alice, Connection = "connA" }, { Name = "Bob", Character = bob, Connection = "connB" } } }
+Client = { ClientList = { { Name = "Alice", SessionId = 1, Character = alice, Connection = "connA" }, { Name = "Bob", SessionId = 2, Character = bob, Connection = "connB" } } }
 ''')
 L.globals().MODPATH = MOD
 L.execute('chunk = loadfile(MODPATH .. "/Lua/Autorun/RoundReport.lua"); chunk(MODPATH)')
