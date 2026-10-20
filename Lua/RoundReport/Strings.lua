@@ -1,0 +1,101 @@
+-- User-facing texts. Keys are shared between languages; missing keys fall back to English.
+local S = {}
+
+S.en = {
+    header = "=== Round report ===",
+    header_total = "=== Totals since server start ===",
+    no_data = "Nothing to report yet.",
+    bot = "bot",
+    mvp = "MVP: %s (%.1f pts)",
+    line = "%s: %s",
+
+    stat_repair = "repaired %d",
+    stat_weld = "welded %d",
+    stat_heal = "healed %d",
+    stat_fire = "fires %ds",
+    stat_damage = "dmg %d",
+    stat_kills = "kills %d",
+    stat_deaths = "deaths %d",
+    stat_ff = "friendly fire %d",
+    stat_hull = "hull dmg %d",
+    stat_meltdown = "MELTDOWN",
+
+    title_repair = "Best mechanic: %s",
+    title_weld = "Best welder: %s",
+    title_heal = "Best medic: %s",
+    title_fire = "Best firefighter: %s",
+    title_damage = "Best hunter: %s",
+    title_deaths = "Kamikaze: %s (%d deaths)",
+    title_ff = "Aims at friends: %s",
+    title_meltdown = "Blew up the reactor: %s",
+    win_round = "Round report",
+    win_total = "Totals since server start",
+    tab_round = "This round",
+    tab_total = "Totals",
+    close = "Close",
+    awards = "Awards",
+    col_player = "Player",
+    col_repair = "Repair",
+    col_weld = "Weld",
+    col_heal = "Heal",
+    col_fire = "Fires, s",
+    col_damage = "Damage",
+    col_kills = "Kills",
+    col_deaths = "Deaths",
+    col_score = "Score",
+    mvp_banner = "MVP: %s",
+    no_mvp = "No MVP this time",
+}
+
+S.uk = {
+    header = "=== Звіт запливу ===",
+    header_total = "=== Підсумок з запуску сервера ===",
+    no_data = "Поки нічого рахувати.",
+    bot = "бот",
+    mvp = "MVP: %s (%.1f балів)",
+    line = "%s: %s",
+
+    stat_repair = "ремонт %d",
+    stat_weld = "зварка %d",
+    stat_heal = "лікування %d",
+    stat_fire = "пожежі %dс",
+    stat_damage = "шкода %d",
+    stat_kills = "вбивства %d",
+    stat_deaths = "смерті %d",
+    stat_ff = "по своїх %d",
+    stat_hull = "свій корпус %d",
+    stat_meltdown = "ПІДІРВАВ РЕАКТОР",
+
+    title_repair = "Найкращий механік: %s",
+    title_weld = "Найкращий зварювальник: %s",
+    title_heal = "Найкращий медик: %s",
+    title_fire = "Найкращий пожежник: %s",
+    title_damage = "Найкращий мисливець: %s",
+    title_deaths = "Камікадзе: %s (смертей: %d)",
+    title_ff = "Стріляє по своїх: %s",
+    title_meltdown = "Підірвав реактор: %s",
+    win_round = "Звіт запливу",
+    win_total = "Підсумок з запуску сервера",
+    tab_round = "Цей заплив",
+    tab_total = "Загалом",
+    close = "Закрити",
+    awards = "Нагороди",
+    col_player = "Гравець",
+    col_repair = "Ремонт",
+    col_weld = "Зварка",
+    col_heal = "Лікування",
+    col_fire = "Пожежі, с",
+    col_damage = "Шкода",
+    col_kills = "Вбивства",
+    col_deaths = "Смерті",
+    col_score = "Бали",
+    mvp_banner = "MVP: %s",
+    no_mvp = "Цього разу без MVP",
+}
+
+function S.get(lang, key)
+    local t = S[lang] or S.en
+    return t[key] or S.en[key] or key
+end
+
+return S
