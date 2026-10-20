@@ -16,6 +16,8 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
 - Optional report window (tabs: this round / totals) for players who have the client-side LuaCs patch. Players without it get chat lines.
 - Chat commands: `!stats` (this round, all players), `!mystats` (only you), `!total` (since the server started).
 - Ukrainian and English text, bots can be included or excluded. See `Lua/RoundReport/Config.lua`.
+- Player stats survive renames and authenticated reconnects during the server's lifetime.
+  Reconnecting without an account ID starts a new player record.
 
 ## Requirements
 
@@ -27,6 +29,10 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
 
 Copy this folder into `<Steam>/steamapps/common/Barotrauma/LocalMods/RoundReport`. Enable it and Lua For Barotrauma in Settings -> Mods, then host a server. Use `reloadlua` in the server console to reload scripts.
 
+When updating from the original name-based tracking, restart the server once to clear
+legacy in-memory records. Subsequent `reloadlua` calls preserve the new player identities,
+stats, and connected clients' window support.
+
 ## Status
 
 Version 0.3.0. Logic is unit-tested against a mocked game API. **Not yet tested in a real game.**
@@ -37,4 +43,5 @@ Version 0.3.0. Logic is unit-tested against a mocked game API. **Not yet tested 
 pip install lupa
 python tests/test_roundreport.py .
 python tests/test_roundreport_client.py .
+python tests/test_player_identity.py
 ```
