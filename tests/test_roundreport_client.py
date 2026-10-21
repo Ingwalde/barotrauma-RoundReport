@@ -9,13 +9,15 @@ MOD = Path(sys.argv.pop(1)).resolve() if len(sys.argv) > 1 and not sys.argv[1].s
 
 
 class ClientTests(unittest.TestCase):
-    def load(self, width=1600, height=1000, lang='uk'):
+    def load(self, width=1600, height=1000, lang='uk', game_language='English'):
         lua = lua52.LuaRuntime(unpack_returned_tuples=True)
         lua.globals().MOD = MOD.as_posix()
         lua.globals().SCREEN_W, lua.globals().SCREEN_H = width, height
         lua.globals().LANG = lang
+        lua.globals().GAME_LANGUAGE = game_language
         lua.execute('''
             dofile(MOD .. '/tests/client_gui_mock.lua')
+            Game.Settings = {CurrentConfig={Language={Value=GAME_LANGUAGE}}}
             local original = dofile
             dofile = function(path)
                 local result = original(path)
@@ -28,6 +30,26 @@ class ClientTests(unittest.TestCase):
 
     def setUp(self):
         self.lua = self.load()
+
+    def test_auto_language_for_every_supported_game_locale(self):
+        names = ['English', 'Ukrainian', 'German', 'French', 'Polish', 'Russian',
+                 'BrazilianPortuguese', 'CastilianSpanish', 'LatinamericanSpanish',
+                 'Turkish', 'Japanese', 'Korean', 'SimplifiedChinese',
+                 'TraditionalChinese', 'FutureLanguage']
+        for name in names:
+            with self.subTest(language=name):
+                lua = self.load(lang='auto', game_language=name)
+                lua.execute('''
+                    local strings = dofile(MOD .. '/Lua/RoundReport/Strings.lua')
+                    local code = strings.resolveLanguage('auto')
+                    local st = sample(); show(st.round, st.total)
+                    assert(findText(strings.get(code, 'win_round')))
+                    local total = findText(strings.get(code, 'tab_total'))
+                    assert(total); total.OnClicked()
+                    assert(findText(strings.get(code, 'win_total')))
+                    local close = findText(strings.get(code, 'close'))
+                    assert(close); close.OnClicked(); assert(not ROOT.comp.Visible)
+                ''')
 
     def test_packet_opens_window_with_aggregates_and_mvp(self):
         self.lua.execute('''

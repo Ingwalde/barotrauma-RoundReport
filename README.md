@@ -22,7 +22,15 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
 - Hover a score or the score column heading for the MVP formula, thresholds,
   penalties and tie-breaking rules in the selected language.
 - Chat commands: `!stats` (this round, all players), `!mystats` (only you), `!total` (since the server started).
-- Ukrainian and English text, bots can be included or excluded. See `Lua/RoundReport/Config.lua`.
+- Language follows the local game settings by default. All 13 languages shipped with
+  Barotrauma 1.13.4.0 are included, plus Ukrainian: English, German, French, Polish,
+  Russian, Brazilian Portuguese, Castilian and Latin American Spanish, Turkish,
+  Japanese, Korean, Simplified and Traditional Chinese. New or unknown languages
+  and missing translation keys fall back to English.
+  Each player's window uses their own language; server-generated chat uses the server's
+  language. Reload Lua after changing the game language. Set `Language` to a locale code
+  such as `uk`, `de` or `zh-CN`
+  in `Lua/RoundReport/Config.lua` to override. Bots can also be included or excluded there.
 - Player stats survive renames and authenticated reconnects during the server's lifetime.
   Reconnecting without an account ID starts a new player record.
 
@@ -56,4 +64,5 @@ pip install lupa
 python tests/test_roundreport.py .
 python tests/test_roundreport_client.py .
 python tests/test_player_identity.py
+python tests/test_localization.py
 ```

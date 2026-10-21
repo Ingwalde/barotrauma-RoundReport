@@ -14,7 +14,8 @@ local Stats = load("Stats")
 local Report = load("Report")
 local Net = load("Net")
 
-local function T(key) return Strings.get(Config.Language, key) end
+local language = Strings.resolveLanguage(Config.Language)
+local function T(key) return Strings.get(language, key) end
 
 RoundReport = RoundReport or {}
 RoundReport.stats = RoundReport.stats or Stats.new() -- survives `reloadlua`
