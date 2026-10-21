@@ -101,6 +101,22 @@ class PlayerIdentityTests(unittest.TestCase):
             request(bob,'!stats'); assert(#sent==0 and #chat>0)
         ''')
 
+    def test_unwrapped_account_survives_reconnect(self):
+        self.check('''
+            local function steamId()
+                return setmetatable({}, {
+                    __index=function() error('cannot access field on SteamId') end,
+                    __tostring=function() return 'STEAM_1:1:1' end
+                })
+            end
+            alice.AccountId=steamId(); hello(alice); repair(alice,10)
+            request(alice,'!stats'); assert(#sent==1)
+            hooks['client.disconnected'](alice)
+            alice=newClient('Back',2,nil); alice.AccountId=steamId()
+            Client.ClientList={alice}; repair(alice,5)
+            assert(only(RoundReport.stats.round).repair==15)
+        ''')
+
     def test_reconnect_keeps_stats_but_requires_new_hello(self):
         self.check('''
             hello(alice); repair(alice,10); alice.Name='Renamed'

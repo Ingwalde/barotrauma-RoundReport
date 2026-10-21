@@ -30,7 +30,12 @@ local function playerSession(client)
     local session = players.sessions[client.SessionId]
     if session == nil then
         local account = client.AccountId
-        local accountKey = account ~= nil and account.IsSome() and tostring(account) or nil
+        local accountKey = nil
+        if account ~= nil then
+            -- LuaCs may unwrap Option<AccountId> to SteamId (or nil) automatically.
+            local wrapped, present = pcall(function() return account.IsSome() end)
+            if not wrapped or present then accountKey = tostring(account) end
+        end
         local key = accountKey and players.accounts[accountKey] or nil
         if key == nil then
             players.nextId = players.nextId + 1
