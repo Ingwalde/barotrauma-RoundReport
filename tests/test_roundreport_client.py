@@ -41,7 +41,7 @@ class ClientTests(unittest.TestCase):
                 lua = self.load(lang='auto', game_language=name)
                 lua.execute('''
                     local strings = dofile(MOD .. '/Lua/RoundReport/Strings.lua')
-                    local code = strings.resolveLanguage('auto')
+                    local code = dofile(MOD .. '/Lua/RoundReport/Language.lua').resolveLanguage('auto')
                     local st = sample(); show(st.round, st.total)
                     assert(findText(strings.get(code, 'win_round')))
                     local total = findText(strings.get(code, 'tab_total'))

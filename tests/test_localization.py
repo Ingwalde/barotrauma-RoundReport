@@ -14,10 +14,13 @@ class LocalizationTests(unittest.TestCase):
         self.strings = self.lua.execute(
             (ROOT / 'Lua/RoundReport/Strings.lua').read_text(encoding='utf-8'))
 
+        self.language = self.lua.execute(
+            (ROOT / 'Lua/RoundReport/Language.lua').read_text(encoding='utf-8'))
+
     def test_all_catalogs_are_complete_and_format_correctly(self):
         english = dict(self.strings.en)
         pattern = r'%(?:\d+)?(?:\.\d+)?[sdgf]'
-        for code in self.strings.languages.values():
+        for code in self.language.languages.values():
             catalog = dict(self.strings[code])
             self.assertEqual(set(english), set(catalog), code)
             for key, value in catalog.items():
@@ -28,22 +31,22 @@ class LocalizationTests(unittest.TestCase):
                     self.lua.eval('string.format')(value, *args)
 
     def test_game_identifiers_and_manual_overrides(self):
-        for name, code in self.strings.languages.items():
+        for name, code in self.language.languages.items():
             self.lua.globals().LANGUAGE = name.upper()
             self.lua.execute('Game={Settings={CurrentConfig={Language={Value=LANGUAGE}}}}')
-            self.assertEqual(code, self.strings.resolveLanguage('auto'))
-            self.assertEqual(code, self.strings.resolveLanguage(None))
-            self.assertEqual(code, self.strings.resolveLanguage(code))
-        self.assertEqual('uk', self.strings.resolveLanguage('uk'))
+            self.assertEqual(code, self.language.resolveLanguage('auto'))
+            self.assertEqual(code, self.language.resolveLanguage(None))
+            self.assertEqual(code, self.language.resolveLanguage(code))
+        self.assertEqual('uk', self.language.resolveLanguage('uk'))
 
     def test_future_language_and_unavailable_settings_fall_back(self):
         self.lua.execute("Game={Settings={CurrentConfig={Language={Value='FutureLanguage'}}}}")
-        self.assertEqual('en', self.strings.resolveLanguage('auto'))
+        self.assertEqual('en', self.language.resolveLanguage('auto'))
         self.lua.execute('Game=nil')
-        self.assertEqual('en', self.strings.resolveLanguage('auto'))
+        self.assertEqual('en', self.language.resolveLanguage('auto'))
         self.lua.execute("Game=setmetatable({}, {__index=function() error('unavailable') end})")
-        self.assertEqual('en', self.strings.resolveLanguage('auto'))
-        self.assertEqual('uk', self.strings.resolveLanguage('uk'))
+        self.assertEqual('en', self.language.resolveLanguage('auto'))
+        self.assertEqual('uk', self.language.resolveLanguage('uk'))
 
     def test_missing_key_falls_back_to_english(self):
         self.strings.de.close = None
