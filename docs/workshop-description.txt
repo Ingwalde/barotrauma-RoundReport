@@ -1,12 +1,10 @@
 [h1]Round Report — Multiplayer Expedition Debrief[/h1]
 
-[i]Find out who kept the submarine alive — and who nearly sank it.[/i]
+[i]Who kept the sub running — and who nearly sank it?[/i]
 
-Round Report turns the end of every multiplayer round into a proper expedition debrief. It tracks each crewmember's contribution, presents the results in a Barotrauma-inspired interface, and selects the round MVP using transparent, configurable scoring rules.
+Every round ends the same way for your crew now: a proper debrief. Round Report tallies who repaired what, who healed, who fought, who died, and crowns a round MVP with transparent, server-tuned scoring. No more arguing in chat about who carried.
 
-The interface automatically follows each player's game language. Players without the client-side LuaCs patch still receive the report in chat.
-
-[h2]What it tracks[/h2]
+[h2]Tracks everything that matters[/h2]
 [list]
 [*]Electrical and mechanical repairs
 [*]Welding and hull maintenance
@@ -17,40 +15,36 @@ The interface automatically follows each player's game language. Players without
 [*]Hull damage and reactor incidents
 [/list]
 
-[h2]Expedition debrief[/h2]
-At the end of a round, the crew receives a clear summary with:
+[h2]The debrief[/h2]
+At round end, the crew gets a native-style report window with:
 [list]
-[*]The round MVP and their final score
-[*]Crew contribution bars and job icons
-[*]Team totals for every tracked category
+[*]The MVP and their final score
+[*]Contribution bars and job icons per player
+[*]Team totals for every category
 [*]Commendations for category leaders
-[*]Incident highlights for deaths, friendly fire and reactor failures
-[*]Separate tabs for the current round and campaign totals
-[*]Score tooltips explaining exactly how MVP points were calculated
+[*]Incident call-outs for deaths, friendly fire and reactor failures
+[*]Tabs for this round vs. campaign totals
+[*]Score tooltips that show exactly how the MVP was calculated
 [/list]
 
-[h2]Persistent campaign statistics[/h2]
-Campaign totals survive server restarts and are stored separately for every campaign save. Switching campaigns automatically switches to that save's own statistics.
+[h2]Stats that stick around[/h2]
+Campaign totals persist across server restarts — stored per save, with an automatic backup. Switch campaigns and the stats switch with you. Round stats always start clean after a restart.
 
-The data is written locally beside the campaign save, with a backup copy for recovery. Current-round statistics always start fresh after a server restart.
-
-[h2]Configurable scoring[/h2]
-Server owners can adjust the importance of repairs, welding, healing, firefighting, damage and kills. Death and friendly-fire penalties can also be changed, and reactor meltdowns can optionally disqualify a player from MVP.
-
-The host's active rules are synchronized to every report window, so displayed scores and tooltips always match the server configuration.
+[h2]Tune the scoring to your crew[/h2]
+Server owners decide what counts: weight repairs, welding, healing, firefighting, damage and kills however you like. Dial in death and friendly-fire penalties, and optionally disqualify reactor meltdowns from MVP entirely. Whatever the host sets is what every player's report window shows.
 
 [h2]Commands[/h2]
 [list]
-[*][b]!stats[/b] — show the current round's crew report
-[*][b]!mystats[/b] — show your personal statistics for this round
-[*][b]!total[/b] — show saved totals for the current campaign
-[*][b]!rrversion[/b] — show the mod version and persistence diagnostics
+[*][b]!stats[/b] — this round's crew report
+[*][b]!mystats[/b] — your own stats for this round
+[*][b]!total[/b] — saved campaign totals
+[*][b]!rrversion[/b] — mod version and persistence diagnostics
 [/list]
 
 [h2]Languages[/h2]
 English, Ukrainian, German, French, Polish, Russian, Brazilian Portuguese, Castilian Spanish, Latin American Spanish, Turkish, Japanese, Korean, Simplified Chinese and Traditional Chinese.
 
-The report window follows each player's selected game language. Server-generated chat follows the server language. New or unsupported game languages automatically fall back to English.
+The report window follows each player's own game language; server chat follows the server's. Unsupported languages fall back to English automatically.
 
 [h2]Requirements[/h2]
 [list]
@@ -59,7 +53,7 @@ The report window follows each player's selected game language. Server-generated
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2559634234]Lua For Barotrauma[/url] enabled on the host
 [/list]
 
-To use the graphical report window, players need the client-side LuaCs installation described on the Lua For Barotrauma page. Installing Round Report by itself does not install that patch. Players without it remain fully supported through chat reports.
+The graphical report window needs the client-side LuaCs install from the Lua For Barotrauma page — subscribing to Round Report alone doesn't add it. No LuaCs? No problem: you still get the full report in chat.
 
 [h2]Version[/h2]
 [b]Round Report 0.5.0[/b]

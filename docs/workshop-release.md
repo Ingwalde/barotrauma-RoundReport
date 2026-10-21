@@ -34,6 +34,9 @@ Add Lua For Barotrauma under **Required Items** on the resulting Workshop page a
 record the new item URL here. Retain the Workshop ID produced by the game for
 subsequent updates; do not create a new listing each time.
 
+Workshop item: <https://steamcommunity.com/sharedfiles/filedetails/?id=3824014163>
+(ID `3824014163`).
+
 Only enable one copy of Round Report when testing the Workshop subscription; the
 game can retain both a local and a subscribed copy after publication.
 
@@ -44,4 +47,5 @@ manually verified in-game through a complete multiplayer round, including report
 delivery and interaction. The new persistence and scoring synchronization still
 need native verification. The English preview was visually inspected.
 
-Publication has not been performed; there is no Workshop item URL yet.
+Published on Workshop as of 0.5.0: <https://steamcommunity.com/sharedfiles/filedetails/?id=3824014163>.
+Update the description and change note there for every subsequent version bump.
