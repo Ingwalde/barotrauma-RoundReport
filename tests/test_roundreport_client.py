@@ -66,6 +66,22 @@ class ClientTests(unittest.TestCase):
             assert(findText('Botty (бот)', rows[3]))
         ''')
 
+    def test_server_scoring_rules_control_client_scores(self):
+        lua = self.load(lang='en')
+        lua.execute('''
+            local st = dofile(MOD .. '/Lua/RoundReport/Stats.lua').new()
+            st:add('p1', 'Alice', false, 'repair', 75)
+            st:add('p2', 'Bob', false, 'repair', 25)
+            local scoring = {MinRepair=1,MinWeld=1,MinHeal=1,MinFire=.5,MinDamage=1,
+              ScoreWeights={repair=20,weld=0,heal=0,fire=0,damage=0,kills=0},
+              DeathPenalty=3,FriendlyFirePenalty=8,MeltdownDisqualifies=true}
+            show(st.round, st.total, 'round', scoring)
+            assert(findText('15.0') and findText('5.0'))
+            local score = findText('15.0')
+            assert(score.ToolTip:find('Repair 20×share',1,true))
+            assert(score.ToolTip:find('Deaths −3×count',1,true))
+        ''')
+
     def test_period_switch_replaces_rows_and_totals(self):
         self.lua.execute('''
             local st = sample(); st:resetRound()
@@ -73,7 +89,7 @@ class ClientTests(unittest.TestCase):
             show(st.round, st.total)
             assert(not findText('Alice') and findText('10'))
             findText('Загалом').OnClicked()
-            assert(findText('Підсумок з запуску сервера'))
+            assert(findText('Підсумок кампанії'))
             assert(findText('Alice') and findText('85'))
             assert(findText('Записів екіпажу: 4'))
             assert(findText('Загалом').Selected and not findText('Цей заплив').Selected)
@@ -105,7 +121,7 @@ class ClientTests(unittest.TestCase):
 
     def test_close_stops_gui_updates_and_hello_repeats_at_round_start(self):
         self.lua.execute('''
-            assert(#sent == 1 and sent[1] == 'roundreport.hello')
+            assert(#sent == 1 and sent[1] == 'roundreport.hello.v2')
             show(); patches['Barotrauma.GameScreen']()
             assert(ROOT.comp.draws == 1)
             findText('Закрити').OnClicked()

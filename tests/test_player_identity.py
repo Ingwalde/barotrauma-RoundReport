@@ -43,7 +43,7 @@ class PlayerIdentityTests(unittest.TestCase):
             function repair(client, amount)
                 patches.OnItemRepaired(nil,{character=client.Character,repairAmount=amount})
             end
-            function hello(client) received['roundreport.hello'](NewMsg(),client) end
+            function hello(client) received['roundreport.hello.v2'](NewMsg(),client) end
             function request(client, command)
                 chat, sent = {}, {}
                 assert(hooks.chatMessage(command,client)==true)
@@ -81,6 +81,15 @@ class PlayerIdentityTests(unittest.TestCase):
             assert(only(RoundReport.stats.round).label=='Renamed')
         ''')
 
+    def test_version_command_reports_persistence_status(self):
+        self.check('''
+            request(alice,'!rrversion')
+            assert(#chat==1)
+            assert(chat[1]:find('Round Report v0.5.0',1,true))
+            assert(chat[1]:find('campaign persistence: off',1,true))
+            assert(chat[1]:find('records: 0',1,true))
+        ''')
+
     def test_rename_keeps_window_delivery(self):
         self.check('''
             hello(alice); repair(alice,10); alice.Name='Renamed'
@@ -89,6 +98,7 @@ class PlayerIdentityTests(unittest.TestCase):
             assert(sent[1].ReadString()=='round')
             local Net=dofile(MOD..'/Lua/RoundReport/Net.lua')
             local Stats=dofile(MOD..'/Lua/RoundReport/Stats.lua')
+            Net.readScoring(sent[1])
             local rows=Net.readTable(sent[1],Stats.FIELDS)
             assert(only(rows).label=='Renamed' and only(rows).repair==10)
             for key in pairs(rows) do assert(not key:find('STEAM',1,true)) end

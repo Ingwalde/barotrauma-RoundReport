@@ -14,7 +14,28 @@ return {
     -- Chat commands (case-insensitive). Players type them in normal chat.
     CommandStats = "!stats",   -- current round, everyone
     CommandMe = "!mystats",    -- current round, only yourself
-    CommandTotal = "!total",   -- totals since the server started
+    CommandTotal = "!total",   -- persisted totals for the current campaign
+    CommandVersion = "!rrversion", -- version, persistence state and stored record count
+
+    -- Persist totals beside each campaign save as <save>.roundreport.tsv.
+    -- Round stats intentionally start fresh after a server restart.
+    PersistenceEnabled = true,
+    PersistenceSuffix = ".roundreport.tsv",
+    PersistenceSaveDelay = 5, -- seconds; repeated events are batched
+
+    -- Each category awards its configured number of points according to the
+    -- player's share of the qualifying team total. Set a weight to 0 to disable it.
+    ScoreWeights = {
+        repair = 10,
+        weld = 10,
+        heal = 10,
+        fire = 10,
+        damage = 10,
+        kills = 10,
+    },
+    DeathPenalty = 2,
+    FriendlyFirePenalty = 5,
+    MeltdownDisqualifies = true,
 
     -- Values below these thresholds are treated as noise and not shown.
     MinRepair = 1,     -- item condition points

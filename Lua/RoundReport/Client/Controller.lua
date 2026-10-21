@@ -11,9 +11,10 @@ function Controller.install(window, Net, Stats)
 
     Networking.Receive(Net.SHOW, function(message)
         local tab = message.ReadString()
+        local scoring = Net.readScoring(message)
         local round = Net.readTable(message, Stats.FIELDS)
         local total = Net.readTable(message, Stats.FIELDS)
-        window.show(round, total, tab)
+        window.show(round, total, tab, scoring)
     end)
 
     -- Tell the server we can show the window. Sent on load and at every round start,

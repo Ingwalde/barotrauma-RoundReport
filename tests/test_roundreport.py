@@ -47,7 +47,7 @@ crawler.CauseOfDeath = { Killer = bob }; hooks["character.death"](crawler)
 -- bot dies twice; heals self (ignored)
 botty.CauseOfDeath = { Killer = crawler }; hooks["character.death"](botty); hooks["character.death"](botty)
 P.OnCharacterHealthChanged(nil, { target = botty, attacker = botty, damage = -50 })
-netRecv["roundreport.hello"](NewMsg(), Client.ClientList[1])
+netRecv["roundreport.hello.v2"](NewMsg(), Client.ClientList[1])
 -- !mystats from Bob
 assert(hooks.chatMessage("!MyStats", Client.ClientList[2]) == true)
 assert(hooks.chatMessage("hello", Client.ClientList[2]) == nil)

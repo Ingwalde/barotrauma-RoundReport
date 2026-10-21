@@ -16,6 +16,8 @@ hooks, open windows or send messages.
 | `Server/Players` | Account/session identity, names and character resolution |
 | `Server/Tracking` | Translate game karma/death events into stat deltas |
 | `Server/Delivery` | Chat commands, GUI/chat delivery and round-end lifecycle |
+| `Server/Persistence` | Campaign selection, debounced saves and backup recovery |
+| `PersistenceCodec` | Versioned deterministic serialization; no game API |
 | `Client/Controller` | Receive packets, announce GUI capability and schedule drawing |
 | `Client/Window` | Build/render native widgets from decoded report data |
 
@@ -35,6 +37,12 @@ The client window owns its current round/total snapshot and widgets. Its control
 passes complete decoded snapshots to `show` and calls `update` during GUI updates.
 Locale is resolved once per Lua load to keep static and dynamic text consistent.
 
+Each campaign uses a sidecar named `<campaign>.save.roundreport.tsv`. Only total
+statistics and the private account-to-opaque-key mapping are persisted; current-round
+and GUI capability state are not. Switching campaigns flushes the old sidecar and
+loads the new one. The codec is versioned, deterministic and keeps a `.bak` recovery
+copy during replacement.
+
 ## Extending the mod
 
 - New tracked activity: add the field to `Stats.FIELDS`, then map a game callback in
@@ -43,8 +51,8 @@ Locale is resolved once per Lua load to keep static and dynamic text consistent.
 - Presentation: change `Client/Window`; transport and identity should not change.
 - Languages: add a complete catalog to `Strings` and an identifier to `Language`.
   Missing keys and unknown languages fall back to English.
-- Persistence: introduce an explicit storage adapter; keep disk access out of
-  `Stats` and `Report` and avoid persisting GUI capability/session state.
+- Persistence format changes: add a new codec version and migration path. Keep disk
+  access in the server adapter and never persist GUI capability/session state.
 
 All runtime Lua files must appear in `filelist.xml`. Run the Python tests with
 `lupa` installed. Identity/reload, client interaction and localization regressions

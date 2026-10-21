@@ -3,8 +3,31 @@ local Window = {}
 
 function Window.new(deps)
     local Config, Stats, Report, T = deps.Config, deps.Stats, deps.Report, deps.T
-    local scoreHelp = string.format(T("score_help"), Config.MinRepair or 0,
-        Config.MinWeld or 0, Config.MinHeal or 0, Config.MinFire or 0, Config.MinDamage or 0)
+    local scoring = Config
+    local function scoreHelpFor(cfg)
+        local title = T("score_help"):match("^[^\n]+") or T("col_score")
+        local weights = cfg.ScoreWeights or {}
+        local fields = {
+            { "col_repair", "repair" }, { "col_weld", "weld" }, { "col_heal", "heal" },
+            { "col_fire", "fire" }, { "col_damage", "damage" }, { "col_kills", "kills" },
+        }
+        local parts = {}
+        for _, item in ipairs(fields) do
+            parts[#parts + 1] = string.format("%s %g×share", T(item[1]), tonumber(weights[item[2]]) or 10)
+        end
+        return table.concat({
+            title,
+            table.concat(parts, " · "),
+            string.format("%s −%g×count · FF −%g×share · %s: MVP = ∅",
+                T("col_deaths"), tonumber(cfg.DeathPenalty) or 2,
+                tonumber(cfg.FriendlyFirePenalty) or 5, T("stat_meltdown")),
+            string.format("min: %s %g · %s %g · %s %g · %s %g · %s %g",
+                T("col_repair"), cfg.MinRepair or 0, T("col_weld"), cfg.MinWeld or 0,
+                T("col_heal"), cfg.MinHeal or 0, T("col_fire"), cfg.MinFire or 0,
+                T("col_damage"), cfg.MinDamage or 0),
+        }, "\n")
+    end
+    local scoreHelp = scoreHelpFor(scoring)
 
     -- Vanilla GUIStyle colours (GUIStyle.cs), copied as plain colours.
     local C = {
@@ -239,7 +262,7 @@ function Window.new(deps)
         title.Text = T(tab == "round" and "win_round" or "win_total")
 
         local tbl = data[tab] or {}
-        local s = Report.summary(tbl, Config)
+        local s = Report.summary(tbl, scoring)
         crewCount.Text = string.format(T("crew_count"), #s.rows)
         for field, value in pairs(totals) do
             local total = 0
@@ -291,8 +314,14 @@ function Window.new(deps)
 
 
     return {
-        show = function(round, total, tab)
+        show = function(round, total, tab, serverScoring)
             data.round, data.total = round, total
+            scoring = serverScoring or Config
+            scoreHelp = scoreHelpFor(scoring)
+            mvpScore.ToolTip = scoreHelp
+            for _, child in ipairs(headerRow.RectTransform.children) do
+                if child.comp and child.comp.Text == T("col_score") then child.comp.ToolTip = scoreHelp end
+            end
             open(tab == "total" and "total" or "round")
         end,
         update = function()

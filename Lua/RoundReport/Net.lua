@@ -3,8 +3,35 @@
 -- and one Single per field in Stats.FIELDS order.
 local Net = {}
 
-Net.HELLO = "roundreport.hello" -- client -> server: "I can show the window"
-Net.SHOW = "roundreport.show"   -- server -> client: open the window with this data
+-- Versioned message IDs make mixed mod versions fall back to chat instead of
+-- decoding an incompatible payload.
+Net.HELLO = "roundreport.hello.v2" -- client -> server: "I can decode protocol v2"
+Net.SHOW = "roundreport.show.v2"   -- server -> client: scoring rules + report data
+
+local SCORE_FIELDS = { "repair", "weld", "heal", "fire", "damage", "kills" }
+
+function Net.writeScoring(msg, config)
+    local weights = config.ScoreWeights or {}
+    for _, field in ipairs(SCORE_FIELDS) do msg.WriteSingle(tonumber(weights[field]) or 10) end
+    msg.WriteSingle(tonumber(config.DeathPenalty) or 2)
+    msg.WriteSingle(tonumber(config.FriendlyFirePenalty) or 5)
+    msg.WriteBoolean(config.MeltdownDisqualifies ~= false)
+    for _, field in ipairs({ "MinRepair", "MinWeld", "MinHeal", "MinFire", "MinDamage" }) do
+        msg.WriteSingle(tonumber(config[field]) or 0)
+    end
+end
+
+function Net.readScoring(msg)
+    local config = { ScoreWeights = {} }
+    for _, field in ipairs(SCORE_FIELDS) do config.ScoreWeights[field] = msg.ReadSingle() end
+    config.DeathPenalty = msg.ReadSingle()
+    config.FriendlyFirePenalty = msg.ReadSingle()
+    config.MeltdownDisqualifies = msg.ReadBoolean()
+    for _, field in ipairs({ "MinRepair", "MinWeld", "MinHeal", "MinFire", "MinDamage" }) do
+        config[field] = msg.ReadSingle()
+    end
+    return config
+end
 
 function Net.writeTable(msg, tbl, fields)
     local keys = {}
