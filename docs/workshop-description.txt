@@ -1,45 +1,69 @@
-[h1]Round Report[/h1]
-See what your crew accomplished at the end of each multiplayer round.
+[h1]Round Report — Multiplayer Expedition Debrief[/h1]
 
-English is the primary language of this Workshop page. The mod automatically localizes its interface for each player.
+[i]Find out who kept the submarine alive — and who nearly sank it.[/i]
 
-Round Report tracks repairs, welding, healing and CPR, firefighting, enemy damage, kills, deaths, friendly fire, hull damage and reactor incidents. The expedition debrief highlights the MVP, crew contributions, commendations and incidents.
+Round Report turns the end of every multiplayer round into a proper expedition debrief. It tracks each crewmember's contribution, presents the results in a Barotrauma-inspired interface, and selects the round MVP using transparent, configurable scoring rules.
 
-[h2]Features[/h2]
+The interface automatically follows each player's game language. Players without the client-side LuaCs patch still receive the report in chat.
+
+[h2]What it tracks[/h2]
 [list]
-[*]Current-round and persistent campaign totals.
-[*]Campaign totals persist across server restarts, separately for every save.
-[*]Server-configurable MVP weights and penalties, synchronized to client windows.
-[*]Native Barotrauma-style report window with job icons and contribution bars.
-[*]Hover over scores to see the MVP rules and penalties.
-[*]Chat reports for players without the client-side LuaCs patch.
-[*]Player statistics survive renames and authenticated reconnects while the server runs.
-[*]Automatic language selection: all 13 game languages plus Ukrainian. Unknown languages fall back to English.
+[*]Electrical and mechanical repairs
+[*]Welding and hull maintenance
+[*]Healing and CPR
+[*]Firefighting
+[*]Damage dealt and enemies killed
+[*]Deaths and friendly fire
+[*]Hull damage and reactor incidents
 [/list]
 
-[h2]Requirements and setup[/h2]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2559634234]Lua For Barotrauma[/url] is required. Enable Lua For Barotrauma and Round Report on the multiplayer host.
+[h2]Expedition debrief[/h2]
+At the end of a round, the crew receives a clear summary with:
+[list]
+[*]The round MVP and their final score
+[*]Crew contribution bars and job icons
+[*]Team totals for every tracked category
+[*]Commendations for category leaders
+[*]Incident highlights for deaths, friendly fire and reactor failures
+[*]Separate tabs for the current round and campaign totals
+[*]Score tooltips explaining exactly how MVP points were calculated
+[/list]
 
-For the report window, players also need the client-side LuaCs installation described on the Lua For Barotrauma page. Subscribing to Round Report alone does not install that client patch. Players without the patch receive chat reports instead.
+[h2]Persistent campaign statistics[/h2]
+Campaign totals survive server restarts and are stored separately for every campaign save. Switching campaigns automatically switches to that save's own statistics.
+
+The data is written locally beside the campaign save, with a backup copy for recovery. Current-round statistics always start fresh after a server restart.
+
+[h2]Configurable scoring[/h2]
+Server owners can adjust the importance of repairs, welding, healing, firefighting, damage and kills. Death and friendly-fire penalties can also be changed, and reactor meltdowns can optionally disqualify a player from MVP.
+
+The host's active rules are synchronized to every report window, so displayed scores and tooltips always match the server configuration.
 
 [h2]Commands[/h2]
 [list]
-[*]!stats — this round's crew report.
-[*]!mystats — your own statistics for this round.
-[*]!total — saved totals for the current campaign.
-[*]!rrversion — mod version, campaign persistence status and saved record count.
+[*][b]!stats[/b] — show the current round's crew report
+[*][b]!mystats[/b] — show your personal statistics for this round
+[*][b]!total[/b] — show saved totals for the current campaign
+[*][b]!rrversion[/b] — show the mod version and persistence diagnostics
 [/list]
 
 [h2]Languages[/h2]
 English, Ukrainian, German, French, Polish, Russian, Brazilian Portuguese, Castilian Spanish, Latin American Spanish, Turkish, Japanese, Korean, Simplified Chinese and Traditional Chinese.
 
-The window follows each player's game language. Server-generated chat follows the server language. Reload Lua after changing the game language.
+The report window follows each player's selected game language. Server-generated chat follows the server language. New or unsupported game languages automatically fall back to English.
 
-[h2]Scope and status[/h2]
-Multiplayer only. Campaign totals persist beside each save; current-round data resets when the server restarts. MVP scores are recalculated from the selected period's statistics, not summed from earlier MVP results.
+[h2]Requirements[/h2]
+[list]
+[*]Multiplayer only
+[*]Barotrauma 1.13.4.0
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2559634234]Lua For Barotrauma[/url] enabled on the host
+[/list]
 
-Version 0.5.0 targets Barotrauma 1.13.4.0. Version 0.4 was manually verified through a complete multiplayer round. Version 0.5 adds campaign-scoped persistence and configurable scoring, passes 35 automated tests, and still needs a native verification round before Workshop publication.
+To use the graphical report window, players need the client-side LuaCs installation described on the Lua For Barotrauma page. Installing Round Report by itself does not install that patch. Players without it remain fully supported through chat reports.
 
-The preview is an illustrative render with demonstration data, not an in-game screenshot.
+[h2]Version[/h2]
+[b]Round Report 0.5.0[/b]
 
-[url=https://github.com/Ingwalde/barotrauma-RoundReport]Source code and issue reports[/url]
+The preview image uses fictional demonstration data.
+
+[url=https://github.com/Ingwalde/barotrauma-RoundReport]Source code, documentation and issue reports[/url]
