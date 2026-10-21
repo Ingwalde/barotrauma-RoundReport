@@ -2,9 +2,10 @@
 
 Barotrauma multiplayer mod (Lua). Tracks per-player stats each round and announces an MVP when the round ends.
 
-![preview](preview.png)
+![Expedition debrief preview](docs/roundreport-interface-preview.png)
 
-*preview.png is a mockup, not an in-game screenshot.*
+*Illustrative render of the Lua widget layout with demonstration data and native game styles,
+not an in-game screenshot. Live LuaCs rendering still needs verification.*
 
 ## What it tracks
 
@@ -14,6 +15,10 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
 
 - End-of-round report in chat for everyone.
 - Optional report window (tabs: this round / totals) for players who have the client-side LuaCs patch. Players without it get chat lines.
+- Expedition debrief layout: MVP card, team totals, job icons, crew contributions,
+  score bars relative to the MVP, and separate scrollable commendations and incidents.
+  Negative scores remain visible. Your row is highlighted in green; category leaders
+  have green values. Long names and report lines have full-text tooltips.
 - Chat commands: `!stats` (this round, all players), `!mystats` (only you), `!total` (since the server started).
 - Ukrainian and English text, bots can be included or excluded. See `Lua/RoundReport/Config.lua`.
 - Player stats survive renames and authenticated reconnects during the server's lifetime.
@@ -35,7 +40,9 @@ stats, and connected clients' window support.
 
 ## Status
 
-Version 0.3.0. Logic is unit-tested against a mocked game API. **Not yet tested in a real game.**
+Version 0.4.0. Logic and client interactions are unit-tested against a mocked game API.
+**Not yet tested in a real game.** The client tests cover period switching, empty reports,
+negative scores, localization, close/reopen behavior, and section sizes at 720p–1440p.
 
 ## Tests
 
