@@ -42,6 +42,9 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
 
 ## Install
 
+For the clean upload package and prepared Steam description, see
+[Workshop release preparation](docs/workshop-release.md).
+
 Copy this folder into `<Steam>/steamapps/common/Barotrauma/LocalMods/RoundReport`. Enable it and Lua For Barotrauma in Settings -> Mods, then host a server. Use `reloadlua` in the server console to reload scripts.
 
 When updating from the original name-based tracking, restart the server once to clear
