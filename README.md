@@ -59,10 +59,13 @@ negative scores, localization, close/reopen behavior, and section sizes at 720pâ
 
 ## Tests
 
+See [Architecture](docs/architecture.md) for module boundaries, reload behavior and extension points.
+
 ```
 pip install lupa
 python tests/test_roundreport.py .
 python tests/test_roundreport_client.py .
 python tests/test_player_identity.py
 python tests/test_localization.py
+python tests/test_architecture.py
 ```

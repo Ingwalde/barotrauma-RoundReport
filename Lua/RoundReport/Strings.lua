@@ -775,35 +775,6 @@ S["zh-TW"] = {
     score_help = "MVP計分\n維修、焊接、治療、滅火、對敵傷害和擊殺六個類別各按有效貢獻比例分配10分。\n最低值：維修 %g；焊接 %g；治療 %g；滅火 %g秒；傷害 %g。擊殺無最低值。完成一半的有效維修可得5分。\n有有效貢獻的玩家每次死亡扣2分，再扣除個人友軍傷害占全隊友軍傷害的比例×5分。爐心熔毀會取消MVP資格。必須為正分；同分按名字的字母順序決定。\n按所選時段重新計算，不累加各回合分數。",
 }
 
--- Resolve once when scripts load so static labels and report content stay consistent.
--- The client uses its own settings; server-generated chat uses the server settings.
-S.languages = {
-    english = "en", ukrainian = "uk", german = "de", french = "fr",
-    polish = "pl", russian = "ru", brazilianportuguese = "pt-BR",
-    castilianspanish = "es", latinamericanspanish = "es-419",
-    turkish = "tr", japanese = "ja", korean = "ko",
-    simplifiedchinese = "zh-CN", traditionalchinese = "zh-TW",
-}
-
-local function languageCode(value)
-    local name = tostring(value):lower()
-    for _, code in pairs(S.languages) do
-        if name == code:lower() then return code end
-    end
-    return S.languages[name] or "en"
-end
-
-function S.resolveLanguage(configured)
-    if configured ~= nil and configured ~= "auto" then
-        return languageCode(configured)
-    end
-    local ok, language = pcall(function()
-        return tostring(Game.Settings.CurrentConfig.Language.Value)
-    end)
-    if ok then return languageCode(language) end
-    return "en"
-end
-
 function S.get(lang, key)
     local t = S[lang] or S.en
     return t[key] or S.en[key] or key

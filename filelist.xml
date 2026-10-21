@@ -8,4 +8,10 @@
   <None file="%ModDir%/Lua/RoundReport/Stats.lua" />
   <None file="%ModDir%/Lua/RoundReport/Report.lua" />
   <None file="%ModDir%/Lua/RoundReport/Net.lua" />
+  <None file="%ModDir%/Lua/RoundReport/Server/Players.lua" />
+  <None file="%ModDir%/Lua/RoundReport/Server/Tracking.lua" />
+  <None file="%ModDir%/Lua/RoundReport/Server/Delivery.lua" />
+  <None file="%ModDir%/Lua/RoundReport/Client/Window.lua" />
+  <None file="%ModDir%/Lua/RoundReport/Client/Controller.lua" />
+  <None file="%ModDir%/Lua/RoundReport/Language.lua" />
 </contentpackage>
