@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="Round Report" modversion="0.3.0" corepackage="false" gameversion="1.13.4.0">
+<contentpackage name="Round Report" modversion="0.4.0" corepackage="false" gameversion="1.13.4.0">
   <!-- Lua-only mod: Lua For Barotrauma loads Lua/Autorun/*.lua from enabled packages. -->
   <None file="%ModDir%/Lua/Autorun/RoundReport.lua" />
   <None file="%ModDir%/Lua/Autorun/RoundReportClient.lua" />
