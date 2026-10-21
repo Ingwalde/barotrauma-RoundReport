@@ -14,6 +14,8 @@ local Report = load("Report")
 local Net = load("Net")
 
 local function T(key) return Strings.get(Config.Language, key) end
+local scoreHelp = string.format(T("score_help"), Config.MinRepair or 0,
+    Config.MinWeld or 0, Config.MinHeal or 0, Config.MinFire or 0, Config.MinDamage or 0)
 
 -- Vanilla GUIStyle colours (GUIStyle.cs), copied as plain colours.
 local C = {
@@ -119,6 +121,7 @@ local mvpText = label(Vector2(1, 0.50), mvpIdentity.RectTransform, "", C.text, G
 label(Vector2(1, 0.24), mvpIdentity.RectTransform, T("mvp_hint"), C.dim)
 local mvpPoints = GUI.LayoutGroup(GUI.RectTransform(Vector2(0.28, 1), mvpLayout.RectTransform))
 local mvpScore = label(Vector2(1, 0.74), mvpPoints.RectTransform, "", C.orange, GUI.GUIStyle.LargeFont, GUI.Alignment.CenterRight)
+mvpScore.ToolTip = scoreHelp
 label(Vector2(1, 0.24), mvpPoints.RectTransform, T("col_score"), C.dim, nil, GUI.Alignment.CenterRight)
 
 local metrics = GUI.LayoutGroup(GUI.RectTransform(Vector2(0.555, 1), hero.RectTransform), true)
@@ -140,8 +143,9 @@ local crewCount = label(Vector2(0.45, 1), rosterHeading.RectTransform, "", C.dim
 -- Match the list's content width (scrollbar excluded), not its outer width.
 local headerRow = GUI.LayoutGroup(GUI.RectTransform(Vector2(1, 0.035), content.RectTransform), true)
 for _, col in ipairs(COLUMNS) do
-    label(Vector2(col.width, 1), headerRow.RectTransform, col.head ~= "" and T(col.head) or "", C.dim, nil,
+    local header = label(Vector2(col.width, 1), headerRow.RectTransform, col.head ~= "" and T(col.head) or "", C.dim, nil,
         col.field == "name" and GUI.Alignment.CenterLeft or GUI.Alignment.Center)
+    if col.field == "score" then header.ToolTip = scoreHelp end
 end
 
 local crewList = GUI.ListBox(GUI.RectTransform(Vector2(1, 0.35), content.RectTransform))
@@ -210,7 +214,8 @@ local function addRow(row, s, me, index)
             local text = row.score ~= 0 and string.format("%.1f", row.score) or "-"
             local color = row.score < 0 and C.red or (row.key == s.mvpKey and C.orange or (text == "-" and C.dim or C.text))
             local scoreCell = GUI.LayoutGroup(GUI.RectTransform(Vector2(col.width, 1), padded.RectTransform))
-            label(Vector2(1, 0.80), scoreCell.RectTransform, text, color, GUI.GUIStyle.SubHeadingFont, GUI.Alignment.Center)
+            local scoreLabel = label(Vector2(1, 0.80), scoreCell.RectTransform, text, color, GUI.GUIStyle.SubHeadingFont, GUI.Alignment.Center)
+            scoreLabel.ToolTip = scoreHelp
             if row.score > 0 and s.mvpScore then
                 local track = panel(Vector2(0.80, 0.06), scoreCell.RectTransform, C.border)
                 track.OutlineColor = C.none

@@ -19,6 +19,8 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
   score bars relative to the MVP, and separate scrollable commendations and incidents.
   Negative scores remain visible. Your row is highlighted in green; category leaders
   have green values. Long names and report lines have full-text tooltips.
+- Hover a score or the score column heading for the MVP formula, thresholds,
+  penalties and tie-breaking rules in the selected language.
 - Chat commands: `!stats` (this round, all players), `!mystats` (only you), `!total` (since the server started).
 - Ukrainian and English text, bots can be included or excluded. See `Lua/RoundReport/Config.lua`.
 - Player stats survive renames and authenticated reconnects during the server's lifetime.
