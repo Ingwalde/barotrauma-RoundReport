@@ -13,7 +13,8 @@ local Stats = load("Stats")
 local Report = load("Report")
 local Net = load("Net")
 
-local function T(key) return Strings.get(Config.Language, key) end
+local language = Strings.resolveLanguage(Config.Language)
+local function T(key) return Strings.get(language, key) end
 local scoreHelp = string.format(T("score_help"), Config.MinRepair or 0,
     Config.MinWeld or 0, Config.MinHeal or 0, Config.MinFire or 0, Config.MinDamage or 0)
 

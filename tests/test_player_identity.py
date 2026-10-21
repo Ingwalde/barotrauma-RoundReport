@@ -23,6 +23,7 @@ class PlayerIdentityTests(unittest.TestCase):
             ChatMessageType={Server=1}
             ChatMessage={Create=function(_, text) return {text=text} end}
             Game={SendDirectChatMessage=function(msg, client) chat[#chat+1]=msg.text end}
+            Game.Settings={CurrentConfig={Language={Value='Ukrainian'}}}
             Networking={
                 Receive=function(id, fn) received[id]=fn end,
                 Start=function(id) local m=NewMsg(); m.id=id; return m end,

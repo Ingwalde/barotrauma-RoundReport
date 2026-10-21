@@ -1,7 +1,9 @@
 -- Round Report configuration. Edit and run `reloadlua` in the server console.
 return {
-    -- "uk" (Ukrainian) or "en" (English).
-    Language = "uk",
+    -- "auto": use this game's language; unknown/new languages fall back to English.
+    -- Override with a locale code from Strings.lua (e.g. "uk", "de", "zh-CN").
+    -- Reload Lua after changing the game language.
+    Language = "auto",
 
     -- Count AI crew members of the player team as well (shown with a "bot" suffix).
     IncludeBots = true,
