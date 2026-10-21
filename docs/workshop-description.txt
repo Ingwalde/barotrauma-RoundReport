@@ -7,7 +7,9 @@ Round Report tracks repairs, welding, healing and CPR, firefighting, enemy damag
 
 [h2]Features[/h2]
 [list]
-[*]Current-round and server-session totals.
+[*]Current-round and persistent campaign totals.
+[*]Campaign totals persist across server restarts, separately for every save.
+[*]Server-configurable MVP weights and penalties, synchronized to client windows.
 [*]Native Barotrauma-style report window with job icons and contribution bars.
 [*]Hover over scores to see the MVP rules and penalties.
 [*]Chat reports for players without the client-side LuaCs patch.
@@ -24,7 +26,8 @@ For the report window, players also need the client-side LuaCs installation desc
 [list]
 [*]!stats — this round's crew report.
 [*]!mystats — your own statistics for this round.
-[*]!total — totals since the server started.
+[*]!total — saved totals for the current campaign.
+[*]!rrversion — mod version, campaign persistence status and saved record count.
 [/list]
 
 [h2]Languages[/h2]
@@ -33,9 +36,9 @@ English, Ukrainian, German, French, Polish, Russian, Brazilian Portuguese, Casti
 The window follows each player's game language. Server-generated chat follows the server language. Reload Lua after changing the game language.
 
 [h2]Scope and status[/h2]
-Multiplayer only. Statistics are kept in memory and reset when the server restarts. MVP scores are recalculated for the selected period, not summed across rounds.
+Multiplayer only. Campaign totals persist beside each save; current-round data resets when the server restarts. MVP scores are recalculated from the selected period's statistics, not summed from earlier MVP results.
 
-Version 0.4.0 targets Barotrauma 1.13.4.0. The current build has been manually verified in-game through a complete multiplayer round and passes 27 automated tests.
+Version 0.5.0 targets Barotrauma 1.13.4.0. Version 0.4 was manually verified through a complete multiplayer round. Version 0.5 adds campaign-scoped persistence and configurable scoring, passes 35 automated tests, and still needs a native verification round before Workshop publication.
 
 The preview is an illustrative render with demonstration data, not an in-game screenshot.
 

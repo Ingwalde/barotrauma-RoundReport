@@ -1,11 +1,11 @@
 # Workshop release preparation
 
 - Title: **Round Report**
-- Version: **0.4.0**
+- Version: **0.5.0**
 - Required Workshop item: **Lua For Barotrauma**, ID `2559634234`
 - Preview: repository `preview.png` (English illustrative render)
 - Description: paste `docs/workshop-description.txt` (Steam BBCode)
-- Change note: `Initial test release: multiplayer crew statistics, MVP debrief, session totals and automatic localization.`
+- Change note: `Version 0.5.0: per-campaign persistent totals, configurable MVP weights and penalties, and the !rrversion diagnostic command.`
 - Workshop page language: **English**
 - Suggested visibility: **Public**
 
@@ -15,7 +15,7 @@ Run `python tools/package_workshop.py` from the repository. No third-party packa
 are required. It produces a unique directory under ignored `dist/` containing:
 
 - `RoundReport/`: only manifest-listed Lua files, `filelist.xml`, `preview.png`, and `LICENSE`.
-- `RoundReport-0.4.0.zip`: the same folder for distribution/backup.
+- `RoundReport-0.5.0.zip`: the same folder for distribution/backup.
 - `SHA256.json`: per-file checksums, outside the upload folder.
 
 Tests, Git metadata, saves, configuration backups and development scripts are not
@@ -39,9 +39,9 @@ game can retain both a local and a subscribed copy after publication.
 
 ## Validation status
 
-The architecture and localization builds pass 27 automated tests and the server
-smoke harness. The current build was manually verified in-game through a complete
-multiplayer round, including report delivery and interaction. The English preview
-was visually inspected.
+Version 0.5 passes 35 automated tests and the server smoke harness. Version 0.4 was
+manually verified in-game through a complete multiplayer round, including report
+delivery and interaction. The new persistence and scoring synchronization still
+need native verification. The English preview was visually inspected.
 
 Publication has not been performed; there is no Workshop item URL yet.

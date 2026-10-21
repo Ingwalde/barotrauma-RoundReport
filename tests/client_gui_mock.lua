@@ -72,10 +72,12 @@ function lists()
     for _, c in ipairs(allWidgets()) do if c.kind == "ListBox" then out[#out + 1] = c end end
     return out
 end
-function show(round, total, tab)
+function show(round, total, tab, scoring)
     local Net = dofile(MOD .. "/Lua/RoundReport/Net.lua")
     local Stats = dofile(MOD .. "/Lua/RoundReport/Stats.lua")
+    local Config = dofile(MOD .. "/Lua/RoundReport/Config.lua")
     local m = NewMsg(); m.WriteString(tab or "round")
+    Net.writeScoring(m, scoring or Config)
     Net.writeTable(m, round or {}, Stats.FIELDS); Net.writeTable(m, total or {}, Stats.FIELDS)
     received[Net.SHOW](m)
 end

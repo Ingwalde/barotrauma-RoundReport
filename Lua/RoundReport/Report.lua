@@ -16,6 +16,13 @@ local function minFor(cfg, cat)
     return cfg[cat.min] or 0
 end
 
+local function weightFor(cfg, cat)
+    local weights = cfg.ScoreWeights or {}
+    local value = tonumber(weights[cat.field])
+    if value == nil then return 10 end
+    return math.max(0, value)
+end
+
 local function sortedEntries(tbl)
     local list = {}
     for key, e in pairs(tbl) do
@@ -34,10 +41,11 @@ function Report.scores(tbl, cfg)
         for _, e in pairs(tbl) do
             if e[cat.field] >= minFor(cfg, cat) then total = total + e[cat.field] end
         end
-        if total > 0 then
+        local weight = weightFor(cfg, cat)
+        if total > 0 and weight > 0 then
             for key, e in pairs(tbl) do
                 if e[cat.field] >= minFor(cfg, cat) then
-                    scores[key] = (scores[key] or 0) + e[cat.field] / total * 10
+                    scores[key] = (scores[key] or 0) + e[cat.field] / total * weight
                 end
             end
         end
@@ -48,10 +56,12 @@ function Report.scores(tbl, cfg)
     for _, e in pairs(tbl) do ffTotal = ffTotal + e.ff end
     for key, e in pairs(tbl) do
         if scores[key] then
-            scores[key] = scores[key] - 2 * e.deaths
-            if ffTotal > 0 then scores[key] = scores[key] - e.ff / ffTotal * 5 end
+            scores[key] = scores[key] - (tonumber(cfg.DeathPenalty) or 2) * e.deaths
+            if ffTotal > 0 then
+                scores[key] = scores[key] - e.ff / ffTotal * (tonumber(cfg.FriendlyFirePenalty) or 5)
+            end
         end
-        if e.meltdown > 0 then scores[key] = nil end
+        if cfg.MeltdownDisqualifies ~= false and e.meltdown > 0 then scores[key] = nil end
     end
     return scores
 end

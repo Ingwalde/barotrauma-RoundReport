@@ -4,6 +4,7 @@ local Delivery = {}
 function Delivery.install(deps)
     local stats, players = deps.stats, deps.players
     local Config, Stats, Report, Net, T = deps.Config, deps.Stats, deps.Report, deps.Net, deps.T
+    local Version, persistence = deps.Version, deps.persistence
     local playerSession, refreshNames = players.session, players.refreshNames
     local COLOR = Color(255, 215, 90, 255)
 
@@ -41,6 +42,7 @@ function Delivery.install(deps)
     local function sendWindow(client, tab)
         local msg = Networking.Start(Net.SHOW)
         msg.WriteString(tab)
+        Net.writeScoring(msg, Config)
         Net.writeTable(msg, stats.round, Stats.FIELDS)
         Net.writeTable(msg, stats.total, Stats.FIELDS)
         Networking.Send(msg, client.Connection)
@@ -59,9 +61,11 @@ function Delivery.install(deps)
 
     Hook.Add("chatMessage", "roundreport.commands", function(message, client)
         if client == nil or message == nil then return end
+        persistence.ensure()
         local m = string.lower(message)
         if m == Config.CommandStats then
             refreshNames()
+            persistence.markDirty()
             deliver(client, "round")
             return true
         elseif m == Config.CommandMe then
@@ -69,7 +73,14 @@ function Delivery.install(deps)
             return true
         elseif m == Config.CommandTotal then
             refreshNames()
+            persistence.markDirty()
             deliver(client, "total")
+            return true
+        elseif m == Config.CommandVersion then
+            local status = persistence.status()
+            local line = string.format("Round Report v%s | campaign persistence: %s | records: %d",
+                Version, status.enabled and "on" or "off", status.records)
+            sendLines({ line }, client)
             return true
         end
     end)
@@ -85,7 +96,10 @@ function Delivery.install(deps)
             end
         end
         stats:resetRound()
+        persistence.flush()
     end)
+
+    Hook.Add("roundStart", "roundreport.persistence", persistence.ensure)
 
 end
 

@@ -21,7 +21,8 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
   have green values. Long names and report lines have full-text tooltips.
 - Hover a score or the score column heading for the MVP formula, thresholds,
   penalties and tie-breaking rules in the selected language.
-- Chat commands: `!stats` (this round, all players), `!mystats` (only you), `!total` (since the server started).
+- Chat commands: `!stats` (this round, all players), `!mystats` (only you),
+  `!total` (saved totals for this campaign), and `!rrversion` (diagnostics).
 - Language follows the local game settings by default. All 13 languages shipped with
   Barotrauma 1.13.4.0 are included, plus Ukrainian: English, German, French, Polish,
   Russian, Brazilian Portuguese, Castilian and Latin American Spanish, Turkish,
@@ -33,12 +34,19 @@ Repairs, welding, healing (including CPR), fire extinguishing, damage dealt, kil
   in `Lua/RoundReport/Config.lua` to override. Bots can also be included or excluded there.
 - Player stats survive renames and authenticated reconnects during the server's lifetime.
   Reconnecting without an account ID starts a new player record.
+- Version 0.5 stores totals separately beside each campaign save and restores them
+  after server restarts. Current-round data starts fresh. Writes are batched and keep
+  a backup copy; corrupt primary data falls back to the backup.
+- MVP category weights, death/friendly-fire penalties and reactor disqualification
+  are configurable on the server. The server sends those rules to client windows.
 
 ## Requirements
 
 - Barotrauma 1.13.4.0
 - [Lua For Barotrauma](https://github.com/evilfactory/LuaCsForBarotrauma) enabled on the host
-- Multiplayer only. Stats come from server-side karma hooks, so there is nothing to report in single player. Stats live in memory and reset on a server restart.
+- Multiplayer only. Stats come from server-side karma hooks, so there is nothing to
+  report in single player. Campaign totals persist; current-round data resets when
+  the server restarts.
 
 ## Install
 
@@ -53,9 +61,11 @@ stats, and connected clients' window support.
 
 ## Status
 
-Version 0.4.0. Manually verified in-game through a complete multiplayer round on
+Version 0.5.0. The previous 0.4 build was manually verified through a complete multiplayer round on
 Barotrauma 1.13.4.0 with LuaCs 1.0.116. Network delivery, gameplay stat tracking,
-MVP rendering, tabs, layout bounds, and close/reopen work. The client tests cover period switching, empty reports,
+MVP rendering, tabs, layout bounds, and close/reopen worked. Version 0.5 adds
+campaign persistence and configurable scoring and requires native verification.
+The client tests cover period switching, empty reports,
 negative scores, localization, close/reopen behavior, and section sizes at 720p–1440p.
 
 ## Tests
@@ -69,4 +79,5 @@ python tests/test_roundreport_client.py .
 python tests/test_player_identity.py
 python tests/test_localization.py
 python tests/test_architecture.py
+python tests/test_v05.py
 ```

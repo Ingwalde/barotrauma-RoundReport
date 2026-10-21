@@ -31,6 +31,14 @@ class ArchitectureTests(unittest.TestCase):
                 module = lua.execute(path.read_text(encoding='utf-8'))
                 self.assertIsNotNone(module)
 
+    def test_manifest_and_runtime_versions_match(self):
+        manifest_version = ET.parse(ROOT / 'filelist.xml').getroot().attrib['modversion']
+        lua = lua52.LuaRuntime(unpack_returned_tuples=True)
+        runtime_version = lua.execute(
+            (ROOT / 'Lua/RoundReport/Version.lua').read_text(encoding='utf-8'))
+        self.assertEqual('0.5.0', manifest_version)
+        self.assertEqual(manifest_version, runtime_version)
+
 
 if __name__ == '__main__':
     unittest.main()
