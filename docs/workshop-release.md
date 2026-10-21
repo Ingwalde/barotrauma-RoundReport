@@ -6,7 +6,8 @@
 - Preview: repository `preview.png` (English illustrative render)
 - Description: paste `docs/workshop-description.txt` (Steam BBCode)
 - Change note: `Initial test release: multiplayer crew statistics, MVP debrief, session totals and automatic localization.`
-- Suggested first upload visibility: Private until a complete gameplay round is verified.
+- Workshop page language: **English**
+- Suggested visibility: **Public**
 
 ## Build
 
@@ -39,8 +40,8 @@ game can retain both a local and a subscribed copy after publication.
 ## Validation status
 
 The architecture and localization builds pass 27 automated tests and the server
-smoke harness. The earlier native lobby test covered report delivery, MVP, tabs,
-layout bounds and close/reopen. The latest architecture still needs a complete
-native gameplay round. The English preview was visually inspected.
+smoke harness. The current build was manually verified in-game through a complete
+multiplayer round, including report delivery and interaction. The English preview
+was visually inspected.
 
 Publication has not been performed; there is no Workshop item URL yet.

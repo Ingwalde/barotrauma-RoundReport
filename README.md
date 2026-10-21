@@ -53,11 +53,9 @@ stats, and connected clients' window support.
 
 ## Status
 
-Version 0.4.0. Logic and client interactions are unit-tested against a mocked game API.
-Native client/server lobby smoke-tested on Barotrauma 1.13.4.0 with LuaCs 1.0.116:
-network report delivery, MVP rendering, tabs, layout bounds, and close/reopen passed
-with synthetic statistics. Gameplay stat hooks and visual appearance still need an
-end-to-end gameplay review. The client tests cover period switching, empty reports,
+Version 0.4.0. Manually verified in-game through a complete multiplayer round on
+Barotrauma 1.13.4.0 with LuaCs 1.0.116. Network delivery, gameplay stat tracking,
+MVP rendering, tabs, layout bounds, and close/reopen work. The client tests cover period switching, empty reports,
 negative scores, localization, close/reopen behavior, and section sizes at 720p–1440p.
 
 ## Tests
