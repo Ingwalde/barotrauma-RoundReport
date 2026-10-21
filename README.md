@@ -41,7 +41,10 @@ stats, and connected clients' window support.
 ## Status
 
 Version 0.4.0. Logic and client interactions are unit-tested against a mocked game API.
-**Not yet tested in a real game.** The client tests cover period switching, empty reports,
+Native client/server lobby smoke-tested on Barotrauma 1.13.4.0 with LuaCs 1.0.116:
+network report delivery, MVP rendering, tabs, layout bounds, and close/reopen passed
+with synthetic statistics. Gameplay stat hooks and visual appearance still need an
+end-to-end gameplay review. The client tests cover period switching, empty reports,
 negative scores, localization, close/reopen behavior, and section sizes at 720p–1440p.
 
 ## Tests
