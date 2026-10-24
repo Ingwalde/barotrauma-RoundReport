@@ -8,6 +8,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/); version
 - Optional performance-based round payout (`PayoutEnabled`/`PayoutPercent` in Config.lua): pays
   a host-configured cut of a voyage's net profit to the crew, weighted by round score; the rest
   stays in the campaign bank. Off by default. Campaign mode only.
+  While enabled, it zeroes the game's own per-player salary each round so the two payout systems
+  don't stack or shrink each other (performance decides the split instead of manual salaries).
   Needs native verification — the timing of this against the game's own reward payout at round
   end has not been confirmed in-game.
 

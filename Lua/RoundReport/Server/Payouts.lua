@@ -1,6 +1,8 @@
 -- Hands a configurable cut of a voyage's net profit to the crew, weighted by round score.
 -- The rest of the profit stays in the campaign bank. Campaign mode only; a no-op otherwise
 -- (sandbox/mission multiplayer has no Campaign, so GameMain.GameSession.Campaign is nil).
+-- While enabled, this replaces the game's own per-player salary for the round (see
+-- clearNativeSalaries below) so the two payout mechanisms don't stack or shrink each other.
 --
 -- Needs native verification: this has not yet been confirmed to run early enough, relative to
 -- the game's own round-end reward payout, to affect the round that just ended rather than the
@@ -23,7 +25,24 @@ function ServerPayouts.new(deps)
         return sum, campaign
     end
 
+    -- The game has its own "salary" system (Wallet.RewardDistribution, set manually per player
+    -- by the captain) that pays crew directly out of the round's reward before it reaches the
+    -- bank. Left alone, that would fight this feature: it would shrink the bank's cut (so our
+    -- pool could be smaller than PayoutPercent promises) and could double-pay a salaried player
+    -- who also scores well. While this feature is enabled, we zero everyone's salary for the
+    -- round so the full profit lands in the bank first, and performance is the only thing that
+    -- decides who gets a cut.
+    local function clearNativeSalaries()
+        for _, client in pairs(Client.ClientList) do
+            local character = client.Character
+            if character ~= nil and character.Wallet ~= nil then
+                pcall(function() character.Wallet.SetRewardDistribution(0) end)
+            end
+        end
+    end
+
     local function captureStart()
+        if Config.PayoutEnabled then clearNativeSalaries() end
         startMoney = partyMoney()
     end
 
