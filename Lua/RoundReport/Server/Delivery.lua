@@ -5,6 +5,7 @@ function Delivery.install(deps)
     local stats, players = deps.stats, deps.players
     local Config, Stats, Report, Net, T = deps.Config, deps.Stats, deps.Report, deps.Net, deps.T
     local Version, persistence = deps.Version, deps.persistence
+    local payouts = deps.payouts
     local playerSession, refreshNames = players.session, players.refreshNames
     local COLOR = Color(255, 215, 90, 255)
 
@@ -95,11 +96,15 @@ function Delivery.install(deps)
                 print("[RoundReport] " .. line)
             end
         end
+        if payouts then payouts.payout() end
         stats:resetRound()
         persistence.flush()
     end)
 
-    Hook.Add("roundStart", "roundreport.persistence", persistence.ensure)
+    Hook.Add("roundStart", "roundreport.persistence", function()
+        persistence.ensure()
+        if payouts then payouts.captureStart() end
+    end)
 
 end
 

@@ -6,6 +6,7 @@ local function load(name) return dofile(modPath .. "/Lua/RoundReport/" .. name .
 local Config, Strings, Stats = load("Config"), load("Strings"), load("Stats")
 local Report, Net = load("Report"), load("Net")
 local Version, Codec = load("Version"), load("PersistenceCodec")
+local PayoutMath = load("Payouts")
 local language = load("Language").resolveLanguage(Config.Language)
 local function T(key) return Strings.get(language, key) end
 
@@ -21,6 +22,9 @@ local persistence = load("Server/Persistence").new(
 RoundReport.persistence = persistence
 persistence.ensure()
 local players = load("Server/Players").new(RoundReport.players, stats, Config)
+local payouts = load("Server/Payouts").new({
+    stats = stats, players = players, Config = Config, Report = Report, Payouts = PayoutMath,
+})
 
 load("Server/Tracking").install(function(character, field, amount)
     persistence.ensure()
@@ -33,6 +37,7 @@ end)
 load("Server/Delivery").install({
     stats = stats, players = players, Config = Config, Stats = Stats,
     Report = Report, Net = Net, T = T, Version = Version, persistence = persistence,
+    payouts = payouts,
 })
 
 print("[RoundReport] loaded")
