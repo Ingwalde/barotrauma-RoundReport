@@ -37,6 +37,11 @@ return {
     FriendlyFirePenalty = 5,
     MeltdownDisqualifies = true,
 
+    -- Pay out a cut of this voyage's net profit to the crew, weighted by round score (off by
+    -- default). The rest of the profit stays in the campaign bank, as usual. Campaign mode only.
+    PayoutEnabled = false,
+    PayoutPercent = 50, -- % of this round's profit distributed by score; 0-100
+
     -- Values below these thresholds are treated as noise and not shown.
     MinRepair = 1,     -- item condition points
     MinWeld = 1,       -- wall health points

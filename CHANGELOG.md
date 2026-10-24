@@ -3,6 +3,14 @@
 All notable changes to Round Report are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/); versions tag the game content package version in `filelist.xml`.
 
+## [Unreleased]
+### Added
+- Optional performance-based round payout (`PayoutEnabled`/`PayoutPercent` in Config.lua): pays
+  a host-configured cut of a voyage's net profit to the crew, weighted by round score; the rest
+  stays in the campaign bank. Off by default. Campaign mode only.
+  Needs native verification — the timing of this against the game's own reward payout at round
+  end has not been confirmed in-game.
+
 ## [0.5.0] - 2026-10-21
 ### Added
 - Campaign-scoped persistence: stats survive server restarts, stored per save with a backup copy for recovery.
