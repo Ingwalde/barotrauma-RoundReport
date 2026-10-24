@@ -49,3 +49,26 @@ need native verification. The English preview was visually inspected.
 
 Published on Workshop as of 0.5.0: <https://steamcommunity.com/sharedfiles/filedetails/?id=3824014163>.
 Update the description and change note there for every subsequent version bump.
+
+## Automated publishing (manual trigger)
+
+`.github/workflows/publish-workshop.yml` packages the mod and uploads it to the Workshop item
+above via `steamcmd`. It only runs when triggered by hand (Actions tab → "Publish to Steam
+Workshop" → Run workflow) — never on push or merge, so a native verification round still happens
+before anything goes live.
+
+One-time setup, done locally by the account owner (not in CI):
+
+1. Install `steamcmd` and log in once interactively as the account that owns this Workshop item:
+   `steamcmd +login <username> <password>`. Approve the Steam Guard prompt (email or mobile code)
+   when asked. This writes a login session under `~/Steam/config`.
+2. Archive that session: `tar -czf steam-config.tar.gz -C ~/Steam/config .`, then base64-encode it
+   and store it as the repository secret `STEAM_LOGIN_CACHE_B64`. Treat this file like a password —
+   it lets steamcmd log in without the 2FA prompt.
+3. Add `STEAM_USERNAME` and `STEAM_PASSWORD` as repository secrets too (steamcmd still wants them
+   alongside the cached session).
+4. Re-do step 1–2 if the session ever expires or Steam invalidates it (login failures in the
+   workflow log are the symptom).
+
+This upload path (`steamcmd +workshop_build_item`) has not been exercised against this item yet —
+treat the first run as a test and confirm the Workshop page updates correctly before relying on it.
